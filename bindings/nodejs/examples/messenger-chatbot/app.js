@@ -38,7 +38,10 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 var MessengerBot = require('./messenger');
-var Chatbot = require('./chatbot');
+var OpenIntent = require('open-intent');
+var ngrok = require('ngrok');
+
+var port = process.env.PORT || 8445;
 
 
 // Get Messenger parameters
@@ -56,13 +59,71 @@ console.log("FB_PAGE_ID: " + FB_PAGE_ID);
 console.log("FB_PAGE_TOKEN: " + FB_PAGE_TOKEN);
 console.log("FB_VERIFY_TOKEN: " + FB_VERIFY_TOKEN);
 
-chatbot = Chatbot();
 
-messenger = MessengerBot(FB_VERIFY_TOKEN, FB_PAGE_TOKEN, function(client, message) {
-    var sessionId = client.sessionId;
+ngrok.connect({
+    proto: 'http',
+    addr: port
+}, startChatbot);
 
-    chatbot.treatMessage(sessionId, message, function(reply) {
-        console.log(reply);
-        client.send(reply);
-    });
+function startChatbot(err, url) {
+    if(err) {
+        console.error(err);
+        process.exit(1);
+    }
+
+    console.log("ngrok is forwarding from " + url + " to localhost:" + port);
+
+    var fs = require('fs');
+    var chatbot = new OpenIntent.Chatbot();
+
+    var DICTIONARY_FILE = 'res/dictionary.json';
+    var SCRIPT_FILE = 'res/script.txt';
+    var USERCOMMANDS_FILE = 'res/user_commands.js';
+
+    var dictionary = fs.readFileSync(DICTIONARY_FILE, 'utf-8');
+    var script = fs.readFileSync(SCRIPT_FILE, 'utf-8');
+    var userCommands = fs.readFileSync(USERCOMMANDS_FILE, 'utf-8');
+
+    var botmodel = {
+        'model': {
+            'script': script,
+            'dictionary': dictionary
+        },
+        'commands': {
+            'type': 'js',
+            'script': userCommands
+        }
+    }
+
+    chatbot.setModel(botmodel)
+    .then(messengerClientCallback(chatbot))
+    .fail(function(err) {
+        console.error('Error: ' + err);
+    })
+}
+
+function messengerClientCallback(chatbot) {
+
+    return function() {
+        messenger = MessengerBot(port, FB_VERIFY_TOKEN, FB_PAGE_TOKEN, function(client, message) {
+            var sessionId = client.sessionId;
+
+            //console.log(sessionId + ' - ' + message);
+            chatbot.talk(sessionId, message)
+            .then(function(replies) {
+                var reply = replies.join(', ');
+
+                console.log(reply);
+                client.send(reply);
+            })
+            .fail(function(err) {
+                console.error('Error: ' + err);
+            })
+        });
+    }
+}
+
+process.on('SIGINT', function() {
+    console.log( "\nGracefully shutting down from SIGINT (Ctrl-C)" );
+    process.exit(0);
 });

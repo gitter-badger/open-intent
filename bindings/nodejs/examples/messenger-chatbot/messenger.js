@@ -51,9 +51,6 @@ var fb_verify_token;
 var fb_page_token;
 var receiveCallback;
 
-// Express listening
-var port = process.env.PORT || 8445;
-
 
 function Client(sender) {
 
@@ -69,6 +66,7 @@ function Client(sender) {
 
 function handleVerify(req, res, next) {
     if (req.query['hub.verify_token'] === fb_verify_token) {
+        console.log('+ Successful token validation.');
         res.send(req.query['hub.challenge']);
     } else {
         res.send('Error, wrong validation token');    
@@ -113,7 +111,7 @@ function sendMessage(sender, text) {
 }
 
 
-module.exports = function(verifyToken, pageToken, receiveCb) {
+module.exports = function(port, verifyToken, pageToken, receiveCb) {
     fb_verify_token = verifyToken;
     fb_page_token = pageToken;
     receiveCallback = receiveCb;
