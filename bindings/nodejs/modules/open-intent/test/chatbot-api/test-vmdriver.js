@@ -42,6 +42,7 @@ var should    = require("should");
 var sinon = require('sinon');
 var fs = require('fs');
 
+var InMemoryStorage = require('../../lib/chatbot-api/storage/in-memory');
 var VMUserDefinedActionDriver = require('../../lib/chatbot-api/user-defined-actions/vm-driver');
 
 describe("Test VM user commands driver", function() {
@@ -89,7 +90,8 @@ describe("Test VM user commands driver", function() {
             it('should keep a variable state', function(done) {
                 var userCommands = require('./vm-commands');
 
-                var userCommandsDriver = new VMUserDefinedActionDriver(userCommands);
+                var storage = new InMemoryStorage();
+                var userCommandsDriver = new VMUserDefinedActionDriver(userCommands, storage);
                 userCommandsDriver.execute('command1', 'SESSION', {})
                     .then(function(userVariables) {
                         should.equal(userVariables.state, 5);
@@ -106,7 +108,8 @@ describe("Test VM user commands driver", function() {
             it('should keep a variable state', function(done) {
                 var userCommands = fs.readFileSync('./test/chatbot-api/vm-commands.js', 'utf-8');
 
-                var userCommandsDriver = new VMUserDefinedActionDriver(userCommands);
+                var storage = new InMemoryStorage();
+                var userCommandsDriver = new VMUserDefinedActionDriver(userCommands, storage);
                 userCommandsDriver.execute('command1', 'SESSION', {})
                     .then(function(userVariables) {
                         should.equal(userVariables.state, 5);

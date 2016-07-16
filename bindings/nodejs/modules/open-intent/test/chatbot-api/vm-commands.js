@@ -37,15 +37,23 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
-var state = 4;
 
 module.exports = {
-    'command1': function(intentVariables, sessionId, next) {
-        state += 1;
-        next({state: state});
+    'command1': function(intentVariables, sessionId, next, storage) {
+        storage.save("state", 4);
+        storage.get("state").then(
+            (data) => {
+                data+=1;
+                storage.save("state", data);
+                next({"state":data});
+            });      
     },
-    'command2': function(intentVariables, sessionId, next) {
-        state += 2
-        next({state: state});
+    'command2': function(intentVariables, sessionId, next, storage) {
+        storage.get("state").then(
+                (data) => {
+                    data+=2;
+                    storage.save("state", data);
+                    next({"state":data});
+                });
     }
 }

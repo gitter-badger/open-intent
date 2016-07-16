@@ -239,7 +239,7 @@ describe("Test open intent chatbot", function() {
                 'session': {
                     'type': 'redis',
                     'config': {
-                        'host': 'http://localhost',
+                        'host': 'localhost',
                         'port': 6379
                     }
                 }
