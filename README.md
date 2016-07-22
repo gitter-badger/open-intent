@@ -3,6 +3,8 @@
 </p>
 
 ====================
+
+[![Join the chat at https://gitter.im/open-intent-io/open-intent](https://badges.gitter.im/open-intent-io/open-intent.svg)](https://gitter.im/open-intent-io/open-intent?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/open-intent-io/open-intent.svg?branch=master)](https://travis-ci.org/open-intent-io/open-intent)
 
 open-intent is a natural language processing framework with the aim of finding user intents in sentences based on entity matching.
