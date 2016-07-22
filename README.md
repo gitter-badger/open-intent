@@ -3,7 +3,7 @@
 </p>
 
 ====================
-[![Build Status](https://travis-ci.org/open-intent-io/open-intent.svg?branch=master)](https://travis-ci.org/open-intent-io/open-intent)
+[![Build Status](https://travis-ci.org/open-intent-io/open-intent.svg?branch=master)](https://travis-ci.org/open-intent-io/open-intent) [![Linux tested](https://img.shields.io/badge/linux-tested-green.svg)](https://img.shields.io/badge/linux-tested-green.svg)
 
 open-intent is a natural language processing framework with the aim of finding user intents in sentences based on entity matching.
 The framework allows you to build and deploy easily your conversational bot in minutes.
