@@ -3,11 +3,12 @@
 </p>
 
 ====================
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)]() [![Build Status](https://travis-ci.org/open-intent-io/open-intent.svg?branch=master)](https://travis-ci.org/open-intent-io/open-intent) [![Linux tested](https://img.shields.io/badge/Linux-tested-brightgreen.svg)]() [![Windows not tested](https://img.shields.io/badge/Windows-not%20tested-orange.svg)]()
-[![OS X not tested](https://img.shields.io/badge/OS%20X-not%20tested-orange.svg)]()
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)]() [![Build Status](https://travis-ci.org/open-intent-io/open-intent.svg?branch=master)](https://travis-ci.org/open-intent-io/open-intent)
 
 open-intent is a natural language processing framework with the aim of finding user intents in sentences based on entity matching.
 The framework allows you to build and deploy easily your conversational bot in minutes.
+
+Supported operating systems: [![Linux tested](https://img.shields.io/badge/Linux-tested-brightgreen.svg)]() [![Windows not tested](https://img.shields.io/badge/Windows-not%20tested-orange.svg)]() [![OS X not tested](https://img.shields.io/badge/OS%20X-not%20tested-orange.svg)]()
 
 # Example
 
